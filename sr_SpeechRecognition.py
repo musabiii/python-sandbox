@@ -1,5 +1,5 @@
 # importing libraries
-import speech_recognition as sr
+import speech_recognition as sr # numpy also require
 import os
 import soundfile as sf
 
@@ -19,16 +19,23 @@ def ogg_to_wav(ogg_file_path):
     sf.write(wav_file_path, data, samplerate)
     return wav_file_path
 
+def ogg_to_text(file_name):
+    workdir = os.path.abspath("./");
+    ogg_file_path = os.path.join(workdir, file_name)
+
+    wav_file_path = ogg_to_wav(ogg_file_path)
+
+    txt = transcribe_audio(wav_file_path)
+
+    if os.path.exists(wav_file_path):
+        os.remove(wav_file_path)
+
+    return txt
+
+
 file_name = "files/new_file_ru.ogg"
 
-workdir = os.path.abspath("./");
-ogg_file_path = os.path.join(workdir, file_name)
+txt = ogg_to_text(file_name)
 
-wav_file_path = ogg_to_wav(ogg_file_path)
-
-txt = transcribe_audio(wav_file_path)
-
-if os.path.exists(wav_file_path):
-    os.remove(wav_file_path)
 
 print(txt);
